@@ -1,16 +1,13 @@
 package com.dovewing.domain;
 
-import java.util.Objects;
-
-public class Vehicle {
+public abstract class Vehicle {
     private final String model;
     private final String reg;
     private final double dailyRate;
-    private final double deposit;
-    private final String category; // "ECONOMY" or "PREMIUM"
+    private final double baseDeposit;
     private VehicleStatus status;
 
-    public Vehicle(String model, String reg, double dailyRate, double deposit, String category) {
+    protected Vehicle(String model, String reg, double dailyRate, double baseDeposit) {
         if (model == null || model.isBlank()) {
             throw new IllegalArgumentException("Model must not be blank: " + model);
         }
@@ -20,16 +17,14 @@ public class Vehicle {
         if (!(dailyRate > 0)) {
             throw new IllegalArgumentException("Daily rate must be positive: " + dailyRate);
         }
-        if (!(deposit >= 0)) {
-            throw new IllegalArgumentException("Deposit must not be negative: " + deposit);
+        if (!(baseDeposit >= 0)) {
+            throw new IllegalArgumentException("Deposit must not be negative: " + baseDeposit);
         }
-        Objects.requireNonNull(category, "Vehicle category is required");
 
         this.model = model;
         this.reg = reg;
         this.dailyRate = dailyRate;
-        this.deposit = deposit;
-        this.category = category;
+        this.baseDeposit = baseDeposit;
         this.status = VehicleStatus.AVAILABLE;
     }
 
@@ -45,17 +40,25 @@ public class Vehicle {
         return dailyRate;
     }
 
-    public double getDeposit() {
-        return deposit;
-    }
-
-    public String getCategory() {
-        return category;
+    public double getBaseDeposit() {
+        return baseDeposit;
     }
 
     public VehicleStatus getStatus() {
         return status;
     }
+
+    public final double costFor(int days) {
+        return dailyRate * days;
+    }
+
+    protected final double standardDeposit(Renter renter) {
+        return renter.getKind().waivesDeposit() ? 0 : baseDeposit;
+    }
+
+    public abstract double depositFor(Renter renter);
+
+    public abstract String getCategory();
 
     void markRented() {
         status = VehicleStatus.RENTED;

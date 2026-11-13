@@ -30,22 +30,9 @@ public class Depot {
             throw new IllegalArgumentException("Rental days must be at least 1: " + days);
         }
 
-        double cost = 0, deposit = 0;
-        if (vehicle.getCategory().equals("ECONOMY")) {
-            cost = vehicle.getDailyRate() * days;
-            deposit = vehicle.getDeposit();
-            if (renter.getKind() == RenterType.MEMBER) {
-                deposit = 0; // members have their deposit waived
-            }
-            vehicle.markRented();
-        } else if (vehicle.getCategory().equals("PREMIUM")) {
-            cost = vehicle.getDailyRate() * days;
-            deposit = vehicle.getDeposit();
-            if (renter.getKind() == RenterType.MEMBER) {
-                deposit = 0; // members have their deposit waived
-            }
-            vehicle.markRented();
-        }
+        double cost = vehicle.costFor(days);
+        double deposit = vehicle.depositFor(renter);
+        vehicle.markRented();
         renter.addHistory("Rented " + vehicle.getModel());
         Rental rental = new Rental(renter.getName(), vehicle.getReg(), days, cost, deposit);
         rentals.add(rental);

@@ -1,10 +1,12 @@
 package com.dovewing.app;
 
 import com.dovewing.domain.Depot;
+import com.dovewing.domain.EconomyVehicle;
+import com.dovewing.domain.PremiumVehicle;
 import com.dovewing.domain.Renter;
+import com.dovewing.domain.RenterType;
 import com.dovewing.domain.Rental;
 import com.dovewing.domain.Vehicle;
-import com.dovewing.domain.RenterType;
 
 public class RentalTrackerApp {
 
@@ -12,8 +14,8 @@ public class RentalTrackerApp {
         Depot depot = new Depot("Dovewing Car Rentals");
         ReportPrinter printer = new ReportPrinter(System.out);
 
-        Vehicle vitz = new Vehicle("Toyota Vitz", "GT-1234-20", 150.00, 500.00, "ECONOMY");
-        Vehicle prado = new Vehicle("Toyota Prado", "GR-5678-22", 600.00, 2000.00, "PREMIUM");
+        Vehicle vitz = new EconomyVehicle("Toyota Vitz", "GT-1234-20", 150.00, 500.00);
+        Vehicle prado = new PremiumVehicle("Toyota Prado", "GR-5678-22", 600.00, 2000.00);
         depot.addVehicle(vitz);
         depot.addVehicle(prado);
 
