@@ -39,6 +39,8 @@ public class Depot {
 
     // Rent a vehicle to a renter for a number of days. The rules depend on the class of vehicle.
     public Rental rent(Renter renter, Vehicle vehicle, int days) {
+        Objects.requireNonNull(renter, "Renter is required");
+        Objects.requireNonNull(vehicle, "Vehicle is required");
         if (days <= 0) {
             throw new IllegalArgumentException("Rental days must be at least 1: " + days);
         }
@@ -58,6 +60,7 @@ public class Depot {
     }
 
     public Rental returnVehicle(Vehicle vehicle) {
+        Objects.requireNonNull(vehicle, "Vehicle is required");
         Rental activeRental = null;
         for (Rental rental : rentals) {
             if (rental.getVehicle() == vehicle && rental.getStatus() == RentalStatus.ACTIVE) {
@@ -86,7 +89,7 @@ public class Depot {
                 renterRentals.add(rental);
             }
         }
-        return renterRentals;
+        return List.copyOf(renterRentals);
     }
 
     public String getName() {
@@ -104,7 +107,7 @@ public class Depot {
                 activeRentals.add(rental);
             }
         }
-        return activeRentals;
+        return List.copyOf(activeRentals);
     }
 }
 
