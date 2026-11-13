@@ -61,6 +61,9 @@ public abstract class Vehicle {
     public abstract String getCategory();
 
     void markRented() {
+        if (status != VehicleStatus.AVAILABLE) {
+            throw new VehicleStateException(model + " (" + reg + ") is already rented");
+        }
         status = VehicleStatus.RENTED;
     }
 

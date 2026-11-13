@@ -7,6 +7,7 @@ import com.dovewing.domain.Renter;
 import com.dovewing.domain.RenterType;
 import com.dovewing.domain.Rental;
 import com.dovewing.domain.Vehicle;
+import com.dovewing.domain.VehicleStateException;
 
 public class RentalTrackerApp {
 
@@ -32,9 +33,13 @@ public class RentalTrackerApp {
         depot.returnVehicle(prado);
         printer.printReturned(prado);
 
-        // ... and the sort of thing that makes them keep a paper backup:
-        Rental amaVitz = depot.rent(ama, vitz, 2); // the Vitz is already out with Kofi, but nothing stops this
-        printer.printRented(vitz, amaVitz);
+        // The Vitz is already out with Kofi, so the depot refuses this rental.
+        try {
+            Rental amaVitz = depot.rent(ama, vitz, 2);
+            printer.printRented(vitz, amaVitz);
+        } catch (VehicleStateException e) {
+            printer.printRefused(e.getMessage());
+        }
 
         printer.printEndOfDay(depot);
     }

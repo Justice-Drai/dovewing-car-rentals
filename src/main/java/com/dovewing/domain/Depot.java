@@ -29,6 +29,12 @@ public class Depot {
         if (days <= 0) {
             throw new IllegalArgumentException("Rental days must be at least 1: " + days);
         }
+        if (!vehicles.contains(vehicle)) {
+            throw new IllegalArgumentException(vehicle.getReg() + " is not in this depot's fleet");
+        }
+        if (!renters.contains(renter)) {
+            throw new IllegalArgumentException(renter.getName() + " is not in this depot's renter list");
+        }
 
         double cost = vehicle.costFor(days);
         double deposit = vehicle.depositFor(renter);

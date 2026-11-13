@@ -27,6 +27,10 @@ public class ReportPrinter {
         out.println("Returned " + vehicle.getModel() + " (" + vehicle.getReg() + ")");
     }
 
+    public void printRefused(String reason) {
+        out.println("Refused: " + reason);
+    }
+
     public void printEndOfDay(Depot depot) {
         out.println();
         out.println("=== " + depot.getName() + " - end of day ===");
