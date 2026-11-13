@@ -109,5 +109,15 @@ public class Depot {
         }
         return List.copyOf(activeRentals);
     }
+
+    public double getDepositsHeld() {
+        double depositsHeld = 0;
+        for (Rental rental : rentals) {
+            if (rental.getStatus() == RentalStatus.ACTIVE) {
+                depositsHeld += rental.getDeposit();
+            }
+        }
+        return depositsHeld;
+    }
 }
 

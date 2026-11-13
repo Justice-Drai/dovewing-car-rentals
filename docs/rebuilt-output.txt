@@ -9,3 +9,4 @@ Fleet status:
   Toyota Prado (GR-5678-22, PREMIUM): AVAILABLE
 Active rentals:
   Rental #1: GT-1234-20 -> Kofi Mensah (3 days)
+Deposits held: GHS 500.0

@@ -47,5 +47,6 @@ public class ReportPrinter {
             out.println("  Rental #" + rental.getId() + ": " + rental.getVehicle().getReg() + " -> "
                     + rental.getRenter().getName() + " (" + rental.getDays() + " days)");
         }
+        out.println("Deposits held: " + CURRENCY + " " + depot.getDepositsHeld());
     }
 }
