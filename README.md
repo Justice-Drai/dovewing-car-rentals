@@ -14,18 +14,11 @@ change and impossible to leave in an invalid state.
 
 The program is plain Java (no external dependencies). You need JDK 21.
 
-**With Maven:**
+From the project root, in Git Bash:
 
 ```bash
-mvn compile
-mvn exec:java -Dexec.mainClass=RentalTracker
-```
-
-**Or directly with the JDK:**
-
-```bash
-javac -d target/classes src/main/java/RentalTracker.java
-java -cp target/classes RentalTracker
+javac -d target/classes $(find src/main/java -name "*.java")
+java -cp target/classes com.dovewing.app.RentalTrackerApp
 ```
 
 Run it first, before you change anything, so you can see how it currently
