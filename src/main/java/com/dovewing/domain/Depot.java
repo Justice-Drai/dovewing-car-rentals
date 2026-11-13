@@ -27,7 +27,7 @@ public class Depot {
         if (v.category.equals("ECONOMY")) {
             cost = v.dailyRate * days;
             deposit = v.deposit;
-            if (r.kind.equals("MEMBER")) {
+            if (r.kind == RenterType.MEMBER) {
                 deposit = 0; // members have their deposit waived
             }
             v.status = "RENTED";
@@ -36,7 +36,7 @@ public class Depot {
         } else if (v.category.equals("PREMIUM")) {
             cost = v.dailyRate * days;
             deposit = v.deposit;
-            if (r.kind.equals("MEMBER")) {
+            if (r.kind == RenterType.MEMBER) {
                 deposit = 0; // members have their deposit waived
             }
             v.status = "RENTED";

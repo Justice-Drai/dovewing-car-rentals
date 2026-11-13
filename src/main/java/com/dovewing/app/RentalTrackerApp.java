@@ -3,6 +3,7 @@ package com.dovewing.app;
 import com.dovewing.domain.Depot;
 import com.dovewing.domain.Renter;
 import com.dovewing.domain.Vehicle;
+import com.dovewing.domain.RenterType;
 
 public class RentalTrackerApp {
 
@@ -14,8 +15,8 @@ public class RentalTrackerApp {
         d.addVehicle(vitz);
         d.addVehicle(prado);
 
-        Renter kofi = new Renter("Kofi Mensah", "CASUAL");
-        Renter ama = new Renter("Ama Owusu", "MEMBER");
+        Renter kofi = new Renter("Kofi Mensah", RenterType.CASUAL);
+        Renter ama = new Renter("Ama Owusu", RenterType.MEMBER);
         d.addRenter(kofi);
         d.addRenter(ama);
 
