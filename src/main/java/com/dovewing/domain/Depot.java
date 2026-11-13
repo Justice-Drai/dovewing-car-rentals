@@ -37,7 +37,6 @@ public class Depot {
         renters.add(renter);
     }
 
-    // Rent a vehicle to a renter for a number of days. The rules depend on the class of vehicle.
     public Rental rent(Renter renter, Vehicle vehicle, int days) {
         Objects.requireNonNull(renter, "Renter is required");
         Objects.requireNonNull(vehicle, "Vehicle is required");
