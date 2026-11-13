@@ -8,6 +8,7 @@ public class Depot {
     private final List<Vehicle> vehicles = new ArrayList<>();
     private final List<Renter> renters = new ArrayList<>();
     private final List<Rental> rentals = new ArrayList<>();
+    private int nextRentalId = 1;
 
     public Depot(String name) {
         if (name == null || name.isBlank()) {
@@ -40,7 +41,7 @@ public class Depot {
         double deposit = vehicle.depositFor(renter);
         vehicle.markRented();
         renter.addHistory("Rented " + vehicle.getModel());
-        Rental rental = new Rental(renter.getName(), vehicle.getReg(), days, cost, deposit);
+        Rental rental = new Rental(nextRentalId++, vehicle, renter, days, cost, deposit);
         rentals.add(rental);
         return rental;
     }
@@ -48,7 +49,7 @@ public class Depot {
     public Rental returnVehicle(Vehicle vehicle) {
         Rental activeRental = null;
         for (Rental rental : rentals) {
-            if (rental.getVehicleReg().equals(vehicle.getReg()) && rental.getStatus() == RentalStatus.ACTIVE) {
+            if (rental.getVehicle() == vehicle && rental.getStatus() == RentalStatus.ACTIVE) {
                 activeRental = rental;
                 break;
             }

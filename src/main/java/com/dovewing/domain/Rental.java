@@ -4,17 +4,19 @@ import java.util.Objects;
 
 public class Rental {
     private final int id;
-    private final String renterName;
-    private final String vehicleReg;
+    private final Vehicle vehicle;
+    private final Renter renter;
     private final int days;
     private final double cost;
     private final double deposit;
     private RentalStatus status;
-    private static int counter = 1;
 
-    public Rental(String renterName, String vehicleReg, int days, double cost, double deposit) {
-        Objects.requireNonNull(renterName, "Renter name is required");
-        Objects.requireNonNull(vehicleReg, "Vehicle registration is required");
+    public Rental(int id, Vehicle vehicle, Renter renter, int days, double cost, double deposit) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("Rental id must be positive: " + id);
+        }
+        Objects.requireNonNull(vehicle, "Vehicle is required");
+        Objects.requireNonNull(renter, "Renter is required");
         if (days <= 0) {
             throw new IllegalArgumentException("Rental days must be at least 1: " + days);
         }
@@ -25,10 +27,9 @@ public class Rental {
             throw new IllegalArgumentException("Deposit must not be negative: " + deposit);
         }
 
-        this.id = counter;
-        counter++;
-        this.renterName = renterName;
-        this.vehicleReg = vehicleReg;
+        this.id = id;
+        this.vehicle = vehicle;
+        this.renter = renter;
         this.days = days;
         this.cost = cost;
         this.deposit = deposit;
@@ -39,12 +40,12 @@ public class Rental {
         return id;
     }
 
-    public String getRenterName() {
-        return renterName;
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
-    public String getVehicleReg() {
-        return vehicleReg;
+    public Renter getRenter() {
+        return renter;
     }
 
     public int getDays() {

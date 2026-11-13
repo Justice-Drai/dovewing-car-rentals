@@ -1,6 +1,7 @@
 package com.dovewing.app;
 
 import com.dovewing.domain.Depot;
+import com.dovewing.domain.Renter;
 import com.dovewing.domain.Rental;
 import com.dovewing.domain.Vehicle;
 
@@ -17,8 +18,10 @@ public class ReportPrinter {
         this.out = Objects.requireNonNull(out, "Output stream is required");
     }
 
-    public void printRented(Vehicle vehicle, Rental rental) {
-        out.println("Rented " + vehicle.getModel() + " (" + vehicle.getReg() + ") to " + rental.getRenterName()
+    public void printRented(Rental rental) {
+        Vehicle vehicle = rental.getVehicle();
+        Renter renter = rental.getRenter();
+        out.println("Rented " + vehicle.getModel() + " (" + vehicle.getReg() + ") to " + renter.getName()
                 + " for " + rental.getDays() + " days, cost " + CURRENCY + " " + rental.getCost() + ", deposit "
                 + CURRENCY + " " + rental.getDeposit());
     }
@@ -41,8 +44,8 @@ public class ReportPrinter {
         }
         out.println("Active rentals:");
         for (Rental rental : depot.getActiveRentals()) {
-            out.println("  Rental #" + rental.getId() + ": " + rental.getVehicleReg() + " -> "
-                    + rental.getRenterName() + " (" + rental.getDays() + " days)");
+            out.println("  Rental #" + rental.getId() + ": " + rental.getVehicle().getReg() + " -> "
+                    + rental.getRenter().getName() + " (" + rental.getDays() + " days)");
         }
     }
 }

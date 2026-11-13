@@ -27,16 +27,16 @@ public class RentalTrackerApp {
 
         // a normal day
         Rental kofiVitz = depot.rent(kofi, vitz, 3);
-        printer.printRented(vitz, kofiVitz);
+        printer.printRented(kofiVitz);
         Rental amaPrado = depot.rent(ama, prado, 2);
-        printer.printRented(prado, amaPrado);
+        printer.printRented(amaPrado);
         depot.returnVehicle(prado);
         printer.printReturned(prado);
 
         // The Vitz is already out with Kofi, so the depot refuses this rental.
         try {
             Rental amaVitz = depot.rent(ama, vitz, 2);
-            printer.printRented(vitz, amaVitz);
+            printer.printRented(amaVitz);
         } catch (VehicleStateException e) {
             printer.printRefused(e.getMessage());
         }
