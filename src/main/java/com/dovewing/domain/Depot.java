@@ -25,7 +25,7 @@ public class Depot {
     }
 
     // Rent a vehicle to a renter for a number of days. The rules depend on the class of vehicle.
-    public void rent(Renter renter, Vehicle vehicle, int days) {
+    public Rental rent(Renter renter, Vehicle vehicle, int days) {
         if (days <= 0) {
             throw new IllegalArgumentException("Rental days must be at least 1: " + days);
         }
@@ -38,8 +38,6 @@ public class Depot {
                 deposit = 0; // members have their deposit waived
             }
             vehicle.markRented();
-            System.out.println("Rented " + vehicle.getModel() + " (" + vehicle.getReg() + ") to " + renter.getName()
-                    + " for " + days + " days, cost GHS " + cost + ", deposit GHS " + deposit);
         } else if (vehicle.getCategory().equals("PREMIUM")) {
             cost = vehicle.getDailyRate() * days;
             deposit = vehicle.getDeposit();
@@ -47,11 +45,11 @@ public class Depot {
                 deposit = 0; // members have their deposit waived
             }
             vehicle.markRented();
-            System.out.println("Rented " + vehicle.getModel() + " (" + vehicle.getReg() + ") to " + renter.getName()
-                    + " for " + days + " days, cost GHS " + cost + ", deposit GHS " + deposit);
         }
         renter.addHistory("Rented " + vehicle.getModel());
-        rentals.add(new Rental(renter.getName(), vehicle.getReg(), days, cost, deposit));
+        Rental rental = new Rental(renter.getName(), vehicle.getReg(), days, cost, deposit);
+        rentals.add(rental);
+        return rental;
     }
 
     public void returnVehicle(Vehicle vehicle) {
@@ -61,28 +59,28 @@ public class Depot {
                 rental.markReturned();
             }
         }
-        System.out.println("Returned " + vehicle.getModel() + " (" + vehicle.getReg() + ")");
     }
 
     public List<Rental> getRentals() {
         return rentals;
     }
 
-    public void printReport() {
-        System.out.println();
-        System.out.println("=== " + name + " - end of day ===");
-        System.out.println("Fleet status:");
-        for (Vehicle vehicle : vehicles) {
-            System.out.println("  " + vehicle.getModel() + " (" + vehicle.getReg() + ", " + vehicle.getCategory()
-                    + "): " + vehicle.getStatus());
-        }
-        System.out.println("Active rentals:");
+    public String getName() {
+        return name;
+    }
+
+    public List<Vehicle> getVehicles() {
+        return List.copyOf(vehicles);
+    }
+
+    public List<Rental> getActiveRentals() {
+        List<Rental> activeRentals = new ArrayList<>();
         for (Rental rental : rentals) {
             if (rental.getStatus() == RentalStatus.ACTIVE) {
-                System.out.println("  Rental #" + rental.getId() + ": " + rental.getVehicleReg() + " -> "
-                        + rental.getRenterName() + " (" + rental.getDays() + " days)");
+                activeRentals.add(rental);
             }
         }
+        return activeRentals;
     }
 }
 

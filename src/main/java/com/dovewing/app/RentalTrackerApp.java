@@ -2,6 +2,7 @@ package com.dovewing.app;
 
 import com.dovewing.domain.Depot;
 import com.dovewing.domain.Renter;
+import com.dovewing.domain.Rental;
 import com.dovewing.domain.Vehicle;
 import com.dovewing.domain.RenterType;
 
@@ -9,6 +10,7 @@ public class RentalTrackerApp {
 
     public static void main(String[] args) {
         Depot depot = new Depot("Dovewing Car Rentals");
+        ReportPrinter printer = new ReportPrinter(System.out);
 
         Vehicle vitz = new Vehicle("Toyota Vitz", "GT-1234-20", 150.00, 500.00, "ECONOMY");
         Vehicle prado = new Vehicle("Toyota Prado", "GR-5678-22", 600.00, 2000.00, "PREMIUM");
@@ -21,13 +23,17 @@ public class RentalTrackerApp {
         depot.addRenter(ama);
 
         // a normal day
-        depot.rent(kofi, vitz, 3);
-        depot.rent(ama, prado, 2);
+        Rental kofiVitz = depot.rent(kofi, vitz, 3);
+        printer.printRented(vitz, kofiVitz);
+        Rental amaPrado = depot.rent(ama, prado, 2);
+        printer.printRented(prado, amaPrado);
         depot.returnVehicle(prado);
+        printer.printReturned(prado);
 
         // ... and the sort of thing that makes them keep a paper backup:
-        depot.rent(ama, vitz, 2); // the Vitz is already out with Kofi, but nothing stops this
+        Rental amaVitz = depot.rent(ama, vitz, 2); // the Vitz is already out with Kofi, but nothing stops this
+        printer.printRented(vitz, amaVitz);
 
-        depot.printReport();
+        printer.printEndOfDay(depot);
     }
 }
