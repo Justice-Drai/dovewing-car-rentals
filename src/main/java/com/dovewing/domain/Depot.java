@@ -64,7 +64,7 @@ public class Depot {
     }
 
     public List<Rental> getRentals() {
-        return rentals;
+        return List.copyOf(rentals);
     }
 
     public String getName() {
