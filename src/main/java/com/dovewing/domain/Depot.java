@@ -40,7 +40,6 @@ public class Depot {
         double cost = vehicle.costFor(days);
         double deposit = vehicle.depositFor(renter);
         vehicle.markRented();
-        renter.addHistory("Rented " + vehicle.getModel());
         Rental rental = new Rental(nextRentalId++, vehicle, renter, days, cost, deposit);
         rentals.add(rental);
         return rental;
@@ -66,6 +65,16 @@ public class Depot {
 
     public List<Rental> getRentals() {
         return List.copyOf(rentals);
+    }
+
+    public List<Rental> rentalsFor(Renter renter) {
+        List<Rental> renterRentals = new ArrayList<>();
+        for (Rental rental : rentals) {
+            if (rental.getRenter() == renter) {
+                renterRentals.add(rental);
+            }
+        }
+        return renterRentals;
     }
 
     public String getName() {

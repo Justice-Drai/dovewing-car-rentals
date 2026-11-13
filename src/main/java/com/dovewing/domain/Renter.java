@@ -1,13 +1,10 @@
 package com.dovewing.domain;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Renter {
     private final String name;
     private final RenterType kind;
-    private final List<String> history = new ArrayList<>();
 
     public Renter(String name, RenterType kind) {
         if (name == null || name.isBlank()) {
@@ -25,9 +22,5 @@ public class Renter {
 
     public RenterType getKind() {
         return kind;
-    }
-
-    void addHistory(String entry) {
-        history.add(entry);
     }
 }
