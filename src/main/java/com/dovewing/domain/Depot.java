@@ -30,7 +30,7 @@ public class Depot {
             if (r.kind == RenterType.MEMBER) {
                 deposit = 0; // members have their deposit waived
             }
-            v.status = "RENTED";
+            v.status = VehicleStatus.RENTED;
             System.out.println("Rented " + v.model + " (" + v.reg + ") to " + r.name
                     + " for " + days + " days, cost GHS " + cost + ", deposit GHS " + deposit);
         } else if (v.category.equals("PREMIUM")) {
@@ -39,7 +39,7 @@ public class Depot {
             if (r.kind == RenterType.MEMBER) {
                 deposit = 0; // members have their deposit waived
             }
-            v.status = "RENTED";
+            v.status = VehicleStatus.RENTED;
             System.out.println("Rented " + v.model + " (" + v.reg + ") to " + r.name
                     + " for " + days + " days, cost GHS " + cost + ", deposit GHS " + deposit);
         }
@@ -48,10 +48,10 @@ public class Depot {
     }
 
     public void returnVehicle(Vehicle v) {
-        v.status = "AVAILABLE";
+        v.status = VehicleStatus.AVAILABLE;
         for (Rental rt : rentals) {
-            if (rt.vehicleReg.equals(v.reg) && rt.status.equals("ACTIVE")) {
-                rt.status = "RETURNED";
+            if (rt.vehicleReg.equals(v.reg) && rt.status == RentalStatus.ACTIVE) {
+                rt.status = RentalStatus.RETURNED;
             }
         }
         System.out.println("Returned " + v.model + " (" + v.reg + ")");
@@ -70,7 +70,7 @@ public class Depot {
         }
         System.out.println("Active rentals:");
         for (Rental rt : rentals) {
-            if (rt.status.equals("ACTIVE")) {
+            if (rt.status == RentalStatus.ACTIVE) {
                 System.out.println("  Rental #" + rt.id + ": " + rt.vehicleReg + " -> " + rt.renterName
                         + " (" + rt.days + " days)");
             }

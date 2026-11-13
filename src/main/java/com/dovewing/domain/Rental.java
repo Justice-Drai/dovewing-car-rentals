@@ -7,7 +7,7 @@ public class Rental {
     public int days;
     public double cost;
     public double deposit;
-    public String status; // "ACTIVE" or "RETURNED"
+    public RentalStatus status;
     static int counter = 1;
 
     public Rental(String renterName, String vehicleReg, int days, double cost, double deposit) {
@@ -18,6 +18,6 @@ public class Rental {
         this.days = days;
         this.cost = cost;
         this.deposit = deposit;
-        this.status = "ACTIVE";
+        this.status = RentalStatus.ACTIVE;
     }
 }
