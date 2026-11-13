@@ -2,6 +2,7 @@ package com.dovewing.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Depot {
     private final String name;
@@ -18,10 +19,21 @@ public class Depot {
     }
 
     public void addVehicle(Vehicle vehicle) {
+        Objects.requireNonNull(vehicle, "Vehicle is required");
+        for (Vehicle existing : vehicles) {
+            if (existing.getReg().equalsIgnoreCase(vehicle.getReg())) {
+                throw new IllegalArgumentException(
+                        "A vehicle with registration " + vehicle.getReg() + " is already in the fleet");
+            }
+        }
         vehicles.add(vehicle);
     }
 
     public void addRenter(Renter renter) {
+        Objects.requireNonNull(renter, "Renter is required");
+        if (renters.contains(renter)) {
+            throw new IllegalArgumentException(renter.getName() + " is already registered at this depot");
+        }
         renters.add(renter);
     }
 
