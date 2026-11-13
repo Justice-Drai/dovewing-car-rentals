@@ -1,5 +1,7 @@
 package com.dovewing.domain;
 
+import java.util.Objects;
+
 public class Rental {
     private final int id;
     private final String renterName;
@@ -11,6 +13,18 @@ public class Rental {
     private static int counter = 1;
 
     public Rental(String renterName, String vehicleReg, int days, double cost, double deposit) {
+        Objects.requireNonNull(renterName, "Renter name is required");
+        Objects.requireNonNull(vehicleReg, "Vehicle registration is required");
+        if (days <= 0) {
+            throw new IllegalArgumentException("Rental days must be at least 1: " + days);
+        }
+        if (!(cost >= 0)) {
+            throw new IllegalArgumentException("Rental cost must not be negative: " + cost);
+        }
+        if (!(deposit >= 0)) {
+            throw new IllegalArgumentException("Deposit must not be negative: " + deposit);
+        }
+
         this.id = counter;
         counter++;
         this.renterName = renterName;

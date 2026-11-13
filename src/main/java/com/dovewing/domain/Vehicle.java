@@ -1,5 +1,7 @@
 package com.dovewing.domain;
 
+import java.util.Objects;
+
 public class Vehicle {
     private final String model;
     private final String reg;
@@ -9,6 +11,20 @@ public class Vehicle {
     private VehicleStatus status;
 
     public Vehicle(String model, String reg, double dailyRate, double deposit, String category) {
+        if (model == null || model.isBlank()) {
+            throw new IllegalArgumentException("Model must not be blank: " + model);
+        }
+        if (reg == null || reg.isBlank()) {
+            throw new IllegalArgumentException("Registration must not be blank: " + reg);
+        }
+        if (!(dailyRate > 0)) {
+            throw new IllegalArgumentException("Daily rate must be positive: " + dailyRate);
+        }
+        if (!(deposit >= 0)) {
+            throw new IllegalArgumentException("Deposit must not be negative: " + deposit);
+        }
+        Objects.requireNonNull(category, "Vehicle category is required");
+
         this.model = model;
         this.reg = reg;
         this.dailyRate = dailyRate;

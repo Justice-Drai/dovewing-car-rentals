@@ -10,6 +10,9 @@ public class Depot {
     private final List<Rental> rentals = new ArrayList<>();
 
     public Depot(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Depot name must not be blank: " + name);
+        }
         this.name = name;
     }
 
@@ -23,6 +26,10 @@ public class Depot {
 
     // Rent a vehicle to a renter for a number of days. The rules depend on the class of vehicle.
     public void rent(Renter renter, Vehicle vehicle, int days) {
+        if (days <= 0) {
+            throw new IllegalArgumentException("Rental days must be at least 1: " + days);
+        }
+
         double cost = 0, deposit = 0;
         if (vehicle.getCategory().equals("ECONOMY")) {
             cost = vehicle.getDailyRate() * days;
