@@ -11,5 +11,17 @@
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <build><finalName>dovewing-car-rentals</finalName></build>
+        <build>
+        <finalName>dovewing-car-rentals</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <configuration>
+                    <mainClass>com.dovewing.app.RentalTrackerApp</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

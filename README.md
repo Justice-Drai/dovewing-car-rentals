@@ -14,7 +14,13 @@ change and impossible to leave in an invalid state.
 
 The program is plain Java (no external dependencies). You need JDK 21.
 
-From the project root, in Git Bash:
+**With Maven** (from the project root):
+
+```bash
+mvn -q compile exec:java
+```
+
+**Or directly with the JDK** (from the project root, in Git Bash):
 
 ```bash
 javac -d target/classes $(find src/main/java -name "*.java")
