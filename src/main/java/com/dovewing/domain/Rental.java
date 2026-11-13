@@ -2,7 +2,7 @@ package com.dovewing.domain;
 
 import java.util.Objects;
 
-public class Rental {
+public final class Rental {
     private final int id;
     private final Vehicle vehicle;
     private final Renter renter;
@@ -11,7 +11,7 @@ public class Rental {
     private final double deposit;
     private RentalStatus status;
 
-    public Rental(int id, Vehicle vehicle, Renter renter, int days, double cost, double deposit) {
+    Rental(int id, Vehicle vehicle, Renter renter, int days, double cost, double deposit) {
         if (id <= 0) {
             throw new IllegalArgumentException("Rental id must be positive: " + id);
         }
