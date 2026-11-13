@@ -4,57 +4,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Depot {
-    public String name;
-    public List<Vehicle> vehicles = new ArrayList<>();
-    public List<Renter> renters = new ArrayList<>();
-    private List<Rental> rentals = new ArrayList<>();
+    private final String name;
+    private final List<Vehicle> vehicles = new ArrayList<>();
+    private final List<Renter> renters = new ArrayList<>();
+    private final List<Rental> rentals = new ArrayList<>();
 
     public Depot(String name) {
         this.name = name;
     }
 
-    public void addVehicle(Vehicle v) {
-        vehicles.add(v);
+    public void addVehicle(Vehicle vehicle) {
+        vehicles.add(vehicle);
     }
 
-    public void addRenter(Renter r) {
-        renters.add(r);
+    public void addRenter(Renter renter) {
+        renters.add(renter);
     }
 
     // Rent a vehicle to a renter for a number of days. The rules depend on the class of vehicle.
-    public void rent(Renter r, Vehicle v, int days) {
+    public void rent(Renter renter, Vehicle vehicle, int days) {
         double cost = 0, deposit = 0;
-        if (v.category.equals("ECONOMY")) {
-            cost = v.dailyRate * days;
-            deposit = v.deposit;
-            if (r.kind == RenterType.MEMBER) {
+        if (vehicle.getCategory().equals("ECONOMY")) {
+            cost = vehicle.getDailyRate() * days;
+            deposit = vehicle.getDeposit();
+            if (renter.getKind() == RenterType.MEMBER) {
                 deposit = 0; // members have their deposit waived
             }
-            v.status = VehicleStatus.RENTED;
-            System.out.println("Rented " + v.model + " (" + v.reg + ") to " + r.name
+            vehicle.markRented();
+            System.out.println("Rented " + vehicle.getModel() + " (" + vehicle.getReg() + ") to " + renter.getName()
                     + " for " + days + " days, cost GHS " + cost + ", deposit GHS " + deposit);
-        } else if (v.category.equals("PREMIUM")) {
-            cost = v.dailyRate * days;
-            deposit = v.deposit;
-            if (r.kind == RenterType.MEMBER) {
+        } else if (vehicle.getCategory().equals("PREMIUM")) {
+            cost = vehicle.getDailyRate() * days;
+            deposit = vehicle.getDeposit();
+            if (renter.getKind() == RenterType.MEMBER) {
                 deposit = 0; // members have their deposit waived
             }
-            v.status = VehicleStatus.RENTED;
-            System.out.println("Rented " + v.model + " (" + v.reg + ") to " + r.name
+            vehicle.markRented();
+            System.out.println("Rented " + vehicle.getModel() + " (" + vehicle.getReg() + ") to " + renter.getName()
                     + " for " + days + " days, cost GHS " + cost + ", deposit GHS " + deposit);
         }
-        r.history.add("Rented " + v.model);
-        rentals.add(new Rental(r.name, v.reg, days, cost, deposit));
+        renter.addHistory("Rented " + vehicle.getModel());
+        rentals.add(new Rental(renter.getName(), vehicle.getReg(), days, cost, deposit));
     }
 
-    public void returnVehicle(Vehicle v) {
-        v.status = VehicleStatus.AVAILABLE;
-        for (Rental rt : rentals) {
-            if (rt.vehicleReg.equals(v.reg) && rt.status == RentalStatus.ACTIVE) {
-                rt.status = RentalStatus.RETURNED;
+    public void returnVehicle(Vehicle vehicle) {
+        vehicle.markReturned();
+        for (Rental rental : rentals) {
+            if (rental.getVehicleReg().equals(vehicle.getReg()) && rental.getStatus() == RentalStatus.ACTIVE) {
+                rental.markReturned();
             }
         }
-        System.out.println("Returned " + v.model + " (" + v.reg + ")");
+        System.out.println("Returned " + vehicle.getModel() + " (" + vehicle.getReg() + ")");
     }
 
     public List<Rental> getRentals() {
@@ -65,14 +65,15 @@ public class Depot {
         System.out.println();
         System.out.println("=== " + name + " - end of day ===");
         System.out.println("Fleet status:");
-        for (Vehicle v : vehicles) {
-            System.out.println("  " + v.model + " (" + v.reg + ", " + v.category + "): " + v.status);
+        for (Vehicle vehicle : vehicles) {
+            System.out.println("  " + vehicle.getModel() + " (" + vehicle.getReg() + ", " + vehicle.getCategory()
+                    + "): " + vehicle.getStatus());
         }
         System.out.println("Active rentals:");
-        for (Rental rt : rentals) {
-            if (rt.status == RentalStatus.ACTIVE) {
-                System.out.println("  Rental #" + rt.id + ": " + rt.vehicleReg + " -> " + rt.renterName
-                        + " (" + rt.days + " days)");
+        for (Rental rental : rentals) {
+            if (rental.getStatus() == RentalStatus.ACTIVE) {
+                System.out.println("  Rental #" + rental.getId() + ": " + rental.getVehicleReg() + " -> "
+                        + rental.getRenterName() + " (" + rental.getDays() + " days)");
             }
         }
     }
