@@ -68,6 +68,9 @@ public abstract class Vehicle {
     }
 
     void markReturned() {
+        if (status != VehicleStatus.RENTED) {
+            throw new VehicleStateException(model + " (" + reg + ") is not currently rented");
+        }
         status = VehicleStatus.AVAILABLE;
     }
 }

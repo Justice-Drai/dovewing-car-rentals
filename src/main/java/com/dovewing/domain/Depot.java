@@ -45,13 +45,22 @@ public class Depot {
         return rental;
     }
 
-    public void returnVehicle(Vehicle vehicle) {
-        vehicle.markReturned();
+    public Rental returnVehicle(Vehicle vehicle) {
+        Rental activeRental = null;
         for (Rental rental : rentals) {
             if (rental.getVehicleReg().equals(vehicle.getReg()) && rental.getStatus() == RentalStatus.ACTIVE) {
-                rental.markReturned();
+                activeRental = rental;
+                break;
             }
         }
+        if (activeRental == null) {
+            throw new VehicleStateException(vehicle.getModel() + " (" + vehicle.getReg()
+                    + ") is not currently rented");
+        }
+
+        vehicle.markReturned();
+        activeRental.markReturned();
+        return activeRental;
     }
 
     public List<Rental> getRentals() {
